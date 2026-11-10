@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Ethik bei den Simpsons</title>
+<style>
+  /* Flacher Cartoon-Look: volle Farbflächen, dicke Konturen, harte Schatten.
+     Alle Styles und Schriften sind lokal, damit der Flyer offline läuft. */
+  :root {
+    --ink: #17181f;
+    --cream: #fff8e1;
+    --serif: Georgia, "Times New Roman", serif;
+    --label: Bahnschrift, "Segoe UI", Arial, sans-serif;
+    --sans: "Segoe UI", system-ui, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { background: var(--ink); }
+  body { color: var(--ink); font: 19px/1.55 var(--sans); }
+
+  .lisa  { --bg: #ffd81f; --fg: var(--ink);   --marker: #c9320a; --chip-bg: var(--ink); --chip-fg: #ffd81f; --rule: var(--ink); }
+  .marge { --bg: #1f4fd6; --fg: var(--cream); --marker: #b9ec4f; --chip-bg: #ffd81f;    --chip-fg: var(--ink); --rule: #ffd81f; }
+
+  .ethic { background: var(--bg); color: var(--fg); padding: clamp(32px, 5vw, 88px) clamp(16px, 4.5vw, 80px); }
+  .ethic + .ethic { border-top: 6px solid var(--ink); }
+  .wrap {
+    max-width: 1560px; margin: 0 auto; display: grid; align-items: start;
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); gap: clamp(40px, 5.5vw, 104px);
+  }
+
+  .label { display: block; font: 700 17px/1.2 var(--label); letter-spacing: .14em; text-transform: uppercase; }
+
+  /* Video bleibt beim Lesen sichtbar */
+  .media { position: sticky; top: 28px; display: flex; flex-direction: column; gap: 18px; }
+  .media h3 { font: 700 clamp(30px, 3vw, 46px)/1.08 var(--serif); letter-spacing: -.015em; }
+  .media h3 .label { margin-bottom: 8px; }
+  .player-box {
+    position: relative; aspect-ratio: 4 / 3; background: #000; overflow: hidden;
+    width: min(calc(100% - 12px), max(480px, calc((100vh - 410px) * 4 / 3)));
+    border: 5px solid var(--ink); border-radius: 18px; box-shadow: 12px 12px 0 var(--ink);
+  }
+  .player { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .video-error { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; padding: 32px; background: #000; color: #fff; }
+  .video-error[hidden] { display: none; }
+  .hint { margin-top: 12px; font: 600 16px/1.3 var(--label); }
+
+  .scenes { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; }
+  .jump {
+    display: grid; grid-template-columns: 56px 1fr; gap: 10px; align-items: start; width: 100%; padding: 7px 8px; text-align: left;
+    background: transparent; border: 0; border-radius: 10px; color: inherit; font: 500 16px/1.32 var(--sans);
+    cursor: pointer; transition: background-color .12s, color .12s;
+  }
+  .jump time {
+    font: 700 15px/1 var(--label); font-variant-numeric: tabular-nums; text-align: center;
+    padding: 5px 0; border-radius: 6px; background: var(--chip-bg); color: var(--chip-fg);
+  }
+  .jump:hover { background: color-mix(in srgb, var(--chip-bg) 16%, transparent); }
+  .jump:focus-visible { outline: 3px solid var(--fg); outline-offset: 1px; }
+  .jump[aria-current="true"] { background: var(--chip-bg); color: var(--chip-fg); }
+  .jump[aria-current="true"] time { background: var(--chip-fg); color: var(--chip-bg); }
+
+  /* Text */
+  .text { max-width: 720px; }
+  h2 { font-family: var(--serif); font-weight: 700; letter-spacing: -.02em; }
+  h2.big { font-size: clamp(42px, 4.6vw, 76px); line-height: 1.02; margin-bottom: 30px; }
+  h2.big .label { font-family: var(--label); letter-spacing: .14em; margin-bottom: 14px; }
+  h2.next { font-size: clamp(30px, 2.8vw, 42px); line-height: 1.1; margin: 48px 0 22px; padding-top: 28px; border-top: 5px solid var(--rule); }
+  .bullets { padding-left: 24px; display: flex; flex-direction: column; gap: 16px; }
+  .bullets li::marker { color: var(--marker); font-size: 1.35em; }
+  .bullets b { font-weight: 800; }
+
+  @media (max-width: 980px) {
+    .wrap { grid-template-columns: minmax(0, 1fr); }
+    .media { position: static; }
+    .player-box { width: calc(100% - 10px); box-shadow: 8px 8px 0 var(--ink); border-width: 4px; }
+    .scenes { grid-template-columns: 1fr; }
+    .text { max-width: none; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <section class="ethic lisa" aria-label="Lisa Simpson">
+    <div class="wrap">
+      <div class="media">
+        <h3><span class="label">Der Ausschnitt</span>Lisa und das Lamm</h3>
+        <div class="player-box">
+          <video class="player" src="Videos/Lisa%20Simpson.mp4#t=0.5" controls preload="metadata" aria-label="Ausschnitt mit Lisa Simpson"></video>
+          <div class="video-error" hidden>Das Video wurde nicht gefunden. Der Ordner „Videos“ muss neben dieser Datei liegen.</div>
+        </div>
+        <p class="hint">1:47 Minuten · Klick auf eine Szene springt direkt dorthin</p>
+        <div class="scenes">
+          <button class="jump" data-t="1"><time>0:01</time><span>Lisa schließt im Streichelzoo ein Lamm ins Herz.</span></button>
+          <button class="jump" data-t="33"><time>0:33</time><span>Beim Familienessen gibt es Lammkoteletts.</span></button>
+          <button class="jump" data-t="40"><time>0:40</time><span>Auf ihrem Teller sieht Lisa plötzlich das Lamm.</span></button>
+          <button class="jump" data-t="52"><time>0:52</time><span>„Ich kann das nicht essen!“ Lisa lehnt das Fleisch ab.</span></button>
+          <button class="jump" data-t="70"><time>1:10</time><span>Bei jedem anderen Gericht denkt sie an das Tier dahinter.</span></button>
+          <button class="jump" data-t="80"><time>1:20</time><span>Lisa will gar kein Fleisch mehr essen. Homer kann es nicht fassen.</span></button>
+        </div>
+      </div>
+
+      <div class="text">
+        <h2 class="big"><span class="label">Kernaussagen</span>Die Pflichtethik nach Immanuel Kant</h2>
+        <ul class="bullets">
+          <li><b>Pflichterfüllung:</b> Moralische Güte zeigt sich nach Kant vor allem im kompromisslosen Bekenntnis zur Pflichterfüllung.</li>
+          <li><b>Konflikt der Kräfte:</b> Der Begriff „Pflicht“ impliziert einen Widerstreit zwischen unseren spontanen Begehren, Gefühlen und Interessen einerseits und der rationalen Vorstellung darüber, wie wir handeln <i>sollten</i>, andererseits.</li>
+          <li><b>Unterordnung der Gefühle:</b> Ein ideales moralisches Vorbild ordnet seine eigenen Begierden und Interessen der Pflicht unter, um konsequent das Richtige tun zu können.</li>
+          <li><b>Moral durch innere Reflexion:</b> Echte Moral wird von innen bestimmt und entsteht aus persönlicher Reflexion, nicht durch den bloßen Gehorsam gegenüber gesellschaftlichen Konventionen oder Autoritäten.</li>
+          <li><b>Widerspruchsfreiheit:</b> Die Grundsätze unseres Handelns müssen auf innere Widersprüche geprüft werden (Kategorischer Imperativ). Es ist widersprüchlich, Zootieren keinen Schaden zufügen zu wollen, aber das Schlachten anderer Tiere gutzuheißen.</li>
+        </ul>
+
+        <h2 class="next">Das zeigt der Ausschnitt</h2>
+        <ul class="bullets">
+          <li><b>Der Widerspruch:</b> Lisa streichelt das Lamm und soll es kurz darauf essen. Genau hier prüft sie ihre Grundsätze und merkt, dass beides nicht zusammenpasst.</li>
+          <li><b>Selbst gedacht:</b> In ihrer Familie ist Fleisch ganz normal. Lisa folgt dieser Gewohnheit nicht, sondern ihrem eigenen Nachdenken.</li>
+          <li><b>Praxisbeispiel Lisa Simpson:</b> Lisa handelt aus einem starken moralischen Bewusstsein nach Prinzipien, die sie durch selbstständiges Nachdenken gewonnen hat, und nimmt dafür auch persönliche Opfer und soziale Konflikte in Kauf.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="ethic marge" aria-label="Marge Simpson">
+    <div class="wrap">
+      <div class="media">
+        <h3><span class="label">Der Ausschnitt</span>Marge und der Country Club</h3>
+        <div class="player-box">
+          <video class="player" src="Videos/Marge%20Simpson.mp4#t=0.5" controls preload="metadata" aria-label="Ausschnitt mit Marge Simpson"></video>
+          <div class="video-error" hidden>Das Video wurde nicht gefunden. Der Ordner „Videos“ muss neben dieser Datei liegen.</div>
+        </div>
+        <p class="hint">4:58 Minuten · Klick auf eine Szene springt direkt dorthin</p>
+        <div class="scenes">
+          <button class="jump" data-t="28"><time>0:28</time><span>Die Familie fährt zum Outlet-Center.</span></button>
+          <button class="jump" data-t="76"><time>1:16</time><span>Marge entdeckt ein Chanel-Kostüm.</span></button>
+          <button class="jump" data-t="90"><time>1:30</time><span>Eine Bekannte sieht sie darin und lädt sie in ihre Kreise ein.</span></button>
+          <button class="jump" data-t="163"><time>2:43</time><span>Marge besucht den vornehmen Country Club.</span></button>
+          <button class="jump" data-t="224"><time>3:44</time><span>Um mitzuhalten, ändert sie ihr Kostüm immer wieder.</span></button>
+          <button class="jump" data-t="248"><time>4:08</time><span>Vor dem Club wendet sie sich am Ende ihrer Familie zu.</span></button>
+        </div>
+      </div>
+
+      <div class="text">
+        <h2 class="big"><span class="label">Kernaussagen</span>Die Tugendethik nach Aristoteles</h2>
+        <ul class="bullets">
+          <li><b>Die goldene Mitte:</b> Ethische Tugenden (wie Tapferkeit, Besonnenheit oder Großzügigkeit) sind das rechte Maß bzw. die inhaltliche Mitte zwischen zwei entgegengesetzten extremen Lastern, wie etwa Feigheit und Tollkühnheit.</li>
+          <li><b>Erwerb durch Übung:</b> Man erlangt diese Tugenden vor allem durch ständige Betätigung, aus der eine innere Gewöhnung resultiert.</li>
+          <li><b>Gerechtigkeit als höchste Tugend:</b> Die wichtigste aller ethischen Tugenden ist die Gerechtigkeit, die sich in austeilende (jedem das, was ihm zukommt) und ausgleichende Gerechtigkeit (Schadenswiedergutmachung) unterteilt.</li>
+          <li><b>Das höchste Ziel ist Eudaimonia (Glück):</b> Das Endziel menschlichen Handelns ist das Glück, welches nicht als flüchtiges physisches Vergnügen verstanden wird, sondern als langfristiges Aufblühen. Tugenden bescheren dieses Glück.</li>
+          <li><b>Soziale Abhängigkeit des Glücks:</b> Da der Mensch eine „soziale Spezies“ ist, hängt wahres Glück stark von Familien- und Freundschaftsbanden ab. Ein tugendhaftes Leben fördert das Wohlergehen der Mitmenschen.</li>
+        </ul>
+
+        <h2 class="next">Das zeigt der Ausschnitt</h2>
+        <ul class="bullets">
+          <li><b>Aus der Balance:</b> Für die Anerkennung im Club verbiegt sich Marge immer mehr. Damit entfernt sie sich vom rechten Maß.</li>
+          <li><b>Zurück zum wahren Glück:</b> Status und schöne Kleider sind schnell vergänglich. Dauerhaft trägt Marge das, was sie mit ihrer Familie verbindet.</li>
+          <li><b>Praxisbeispiel Marge Simpson:</b> Marge richtet ihre Handlungen nach einer vernünftigen, moralischen Balance aus. Sie findet ihre Eudaimonia in der tiefen Verbundenheit zu ihrer Familie und dem Einsatz für deren Wohl.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const players = [...document.querySelectorAll('.player')];
+
+  players.forEach(v => {
+    const jumps = [...v.closest('.media').querySelectorAll('.jump')];
+
+    // Es läuft immer nur ein Video gleichzeitig.
+    v.addEventListener('play', () => players.forEach(o => { if (o !== v) o.pause(); }));
+    v.addEventListener('error', () => { v.nextElementSibling.hidden = false; });
+
+    // Die gerade laufende Szene wird in der Liste markiert.
+    const mark = () => {
+      const active = jumps.filter(b => Number(b.dataset.t) <= v.currentTime + 0.25).pop();
+      jumps.forEach(b => b === active ? b.setAttribute('aria-current', 'true') : b.removeAttribute('aria-current'));
+    };
+    v.addEventListener('timeupdate', mark);
+    v.addEventListener('seeked', mark);
+
+    jumps.forEach(b => b.addEventListener('click', () => {
+      v.currentTime = Number(b.dataset.t);
+      v.play();
+    }));
+  });
+</script>
+</body>
+</html>
